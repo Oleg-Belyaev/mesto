@@ -1,0 +1,9 @@
+.profile__button {
+    margin-left: 19px;
+}
+
+@media screen and (max-width: 620px) {
+  .profile__button {
+      margin-left: 9px;
+  }
+}

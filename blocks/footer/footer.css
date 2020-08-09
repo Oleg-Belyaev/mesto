@@ -1,0 +1,4 @@
+.footer {
+    max-width: 882px;
+    width: calc(100% - 38px);
+}
