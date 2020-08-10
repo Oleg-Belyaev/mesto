@@ -3,4 +3,11 @@
     border: solid #ffffff;
     padding: 0;
     display: block;
+    outline: none;
+    cursor: pointer;
+    transition: opacity .5s linear;
+  }
+
+  .button:hover {
+    opacity: 0.6;
   }
