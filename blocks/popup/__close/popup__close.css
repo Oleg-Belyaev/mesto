@@ -11,7 +11,7 @@
     outline: none;
     cursor: pointer;
     transition: opacity .5s linear;
-  }
+}
 
 .popup__close:hover {
     opacity: 0.6;
@@ -37,10 +37,21 @@
     transform: rotate(-45deg);
     top: -54px;
     right: -13px;
-  }
+}
 
   @media screen and (max-width: 510px) {
     .popup__close {
-      right: 0px;
+      right: -45px;
+      top: -22px;
+      width: 53.7px;
     }
+
+    .popup__close::before {
+        height: 30.7px;
+    }
+
+    .popup__close::after {
+      height: 30.7px;
+    }
+
   }

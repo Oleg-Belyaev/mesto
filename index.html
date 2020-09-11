@@ -33,60 +33,6 @@
         </button>
       </section>
       <section class="elements content__section content__section_has_indent">
-        <div class="element">
-          <img src="./images/karachaevsk.png" alt="Карачаевск фото" class="element__image">
-          <div class="element__caption">
-            <p class="element__name">Карачаевск</p>
-            <button class="button element__button" type="button">
-              <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-            </button>
-          </div>
-        </div>
-        <div class="element">
-            <img src="./images/elbrus.png" alt="Эльбрус фото" class="element__image">
-            <div class="element__caption">
-              <p class="element__name">Гора Эльбрус</p>
-              <button class="button element__button" type="button">
-                <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-              </button>
-            </div>
-          </div>
-          <div class="element">
-            <img src="./images/dombai.png" alt="Домбай фото" class="element__image">
-            <div class="element__caption">
-              <p class="element__name">Домбай</p>
-              <button class="button element__button" type="button">
-                <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-              </button>
-            </div>
-          </div>
-          <div class="element">
-            <img src="./images/elbrus.png" alt="Эльбрус фото" class="element__image">
-            <div class="element__caption">
-              <p class="element__name">Гора Эльбрус</p>
-              <button class="button element__button" type="button">
-                <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-              </button>
-            </div>
-          </div>
-          <div class="element">
-            <img src="./images/dombai.png" alt="Домбай фото" class="element__image">
-            <div class="element__caption">
-              <p class="element__name">Домбай</p>
-              <button class="button element__button" type="button">
-                <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-              </button>
-            </div>
-          </div>
-          <div class="element">
-            <img src="./images/karachaevsk.png" alt="Карачаевск фото" class="element__image">
-            <div class="element__caption">
-              <p class="element__name">Карачаево-Черкесия</p>
-              <button class="button element__button" type="button">
-                <img src="./images/heart.svg" alt="Сердце" class="element__heart">
-              </button>
-            </div>
-          </div>
       </section>
     </main>
     <footer class="footer page__section">
@@ -103,7 +49,41 @@
         </fieldset>
       </form>
     </section>
+    <section class="popup">
+      <form class="popup__container" name="Card">
+        <button class="popup__close" type="button"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <fieldset class="popup__input-container">
+          <input type="text" class="popup__item" name="title" required placeholder="Название">
+          <input type="text" class="popup__item" name="link" required placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__submit" value="Создать">Создать</button>
+        </fieldset>
+      </form>
+    </section>
   </div>
+  <template id="elementTemplate">
+    <div class="element">
+      <img src="" alt="" class="element__image">
+      <div class="element__caption">
+        <p class="element__name"></p>
+        <button class="button element__button-like" type="button">
+          <img src="./images/heart.svg" alt="Сердце" class="element__heart">
+        </button>
+      </div>
+      <button class="button element__button-remove" type="button">
+        <img src="./images/bucket.svg" alt="Корзина" class="element__bucket">
+      </button>
+      <section class="popup">
+        <div class="popup__imagecontainer">
+          <button class="popup__close popup__close_image" type="button"></button>
+          <figure class="element__figure">
+            <img class="element__image element__image_xl" src="" alt="">
+            <figcaption class="element__imagecaption"></figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+  </template>
   <script src="scripts/index.js"></script>
 </body>
 </html>
