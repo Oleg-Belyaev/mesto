@@ -38,7 +38,7 @@
     <footer class="footer page__section">
         <p class="footer__copyright">&copy; 2020.Mesto Russia</p>
     </footer>
-    <section class="popup">
+    <section class="popup" id="popup-profile">
       <form class="popup__container" name="Info">
         <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
@@ -49,7 +49,7 @@
         </fieldset>
       </form>
     </section>
-    <section class="popup">
+    <section class="popup" id="popup-card">
       <form class="popup__container" name="Card">
         <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Новое место</h2>
@@ -59,6 +59,15 @@
           <button type="submit" class="popup__submit" value="Создать">Создать</button>
         </fieldset>
       </form>
+    </section>
+    <section class="popup" id="popup-image">
+      <div class="popup__imagecontainer">
+        <button class="popup__close popup__close_image" type="button"></button>
+        <figure class="popup__figure">
+          <img class="popup__image" src="" alt="">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+      </div>
     </section>
   </div>
   <template id="elementTemplate">
@@ -73,7 +82,7 @@
       <button class="button element__button-remove" type="button">
         <img src="./images/bucket.svg" alt="Корзина" class="element__bucket">
       </button>
-      <section class="popup">
+      <!--<section class="popup">
         <div class="popup__imagecontainer">
           <button class="popup__close popup__close_image" type="button"></button>
           <figure class="element__figure">
@@ -81,7 +90,7 @@
             <figcaption class="element__imagecaption"></figcaption>
           </figure>
         </div>
-      </section>
+      </section>-->
     </div>
   </template>
   <script src="scripts/index.js"></script>
