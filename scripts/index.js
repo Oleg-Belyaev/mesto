@@ -46,15 +46,15 @@ const initialCards = [
   }
 ];
 
-const addElementToContainer = element => {
+const createCard = card => {
   const newCard = cardElement.cloneNode(true);
   const cardImage = newCard.querySelector('.element__image');
 
-  newCard.querySelector('.element__name').textContent = element.name;
+  newCard.querySelector('.element__name').textContent = card.name;
   
-  cardImage.src = element.link;
+  cardImage.src = card.link;
 
-  cardImage.alt = element.name;
+  cardImage.alt = card.name;
 
   newCard.querySelector('.element__heart').addEventListener('click', event => {
   event.target.classList.toggle('element__heart_dark')
@@ -67,7 +67,7 @@ const addElementToContainer = element => {
 
   });
 
-  newCard.querySelector('.element__image').addEventListener('click', event => {
+  cardImage.addEventListener('click', event => {
     popupImage.src = cardImage.src;
     popupImage.alt = cardImage.alt;
     popupCaption.textContent = cardImage.alt;
@@ -77,7 +77,7 @@ const addElementToContainer = element => {
 
 };
 
-initialCards.forEach(addElementToContainer);
+initialCards.forEach(createCard);
 
 const popupOpen = function () {
   nameInput.value = profileName.textContent;
@@ -109,13 +109,13 @@ const popupImageClose = () => {
 const addCardToContainer = (evt) => {
   evt.preventDefault();
 
-  const element = {
+  const card = {
     name: nameCardInput.value,
     link: linkCardInput.value
   }
-  
-  addElementToContainer(element);
 
+  createCard(card);
+  
   popupCards.classList.remove('popup_opened');
 
   cardSubmit.reset();
