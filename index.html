@@ -39,28 +39,43 @@
         <p class="footer__copyright">&copy; 2020.Mesto Russia</p>
     </footer>
     <section class="popup" id="popup-profile">
-      <form class="popup__container" name="Info">
+      <div class="popup__overlay"></div>
+      <form class="popup__container" name="Info" novalidate>
         <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__input-container">
-          <input type="text" class="popup__item" name="name" placeholder="Имя Фамилия">
-          <input type="text" class="popup__item" name="profession" placeholder="Профессия">
+          <div class="popup__field">
+            <input type="text" class="popup__item" name="name" placeholder="Имя Фамилия" id="name-input" required minlength="2" maxlength="40">
+            <span class="popup__item-error" id="name-input-error"></span>
+          </div>
+          <div class="popup__field">
+            <input type="text" class="popup__item" name="profession" placeholder="Профессия" id="profession-input" required minlength="2" maxlength="200">
+            <span class="popup__item-error" id="profession-input-error"></span>
+          </div>
           <button type="submit" class="popup__submit" value="Сохранить">Сохранить</button>
         </fieldset>
       </form>
     </section>
     <section class="popup" id="popup-card">
-      <form class="popup__container" name="Card">
+      <div class="popup__overlay"></div>
+      <form class="popup__container" name="Card" novalidate>
         <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__input-container">
-          <input type="text" class="popup__item" name="title" required placeholder="Название">
-          <input type="text" class="popup__item" name="link" required placeholder="Ссылка на картинку">
+          <div class="popup__field">
+            <input type="text" class="popup__item" name="title" required placeholder="Название" id="title-input" minlength="2" maxlength="30">
+            <span class="popup__item-error" id="title-input-error"></span>
+          </div>
+          <div class="popup__field">
+            <input type="url" class="popup__item" name="link" required placeholder="Ссылка на картинку" id="link-input">
+            <span class="popup__item-error" id="link-input-error"></span>
+          </div>
           <button type="submit" class="popup__submit" value="Создать">Создать</button>
         </fieldset>
       </form>
     </section>
     <section class="popup" id="popup-image">
+      <div class="popup__overlay"></div>
       <div class="popup__imagecontainer">
         <button class="popup__close popup__close_image" type="button"></button>
         <figure class="popup__figure">
@@ -85,5 +100,6 @@
     </div>
   </template>
   <script src="scripts/index.js"></script>
+  <script src="scripts/validate.js"></script>
 </body>
 </html>

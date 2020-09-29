@@ -8,6 +8,7 @@
     transform: translate(-50%, -50%);
     border-radius: 10px;
     background: #ffffff;
+    z-index: 20;
 }
 
 @media screen and (max-width: 510px) {

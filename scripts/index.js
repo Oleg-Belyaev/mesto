@@ -6,11 +6,13 @@ const profileProfession = document.querySelector('.profile__profession');
 const formElement = popupProfile.querySelector('.popup__container');
 const nameInput = popupProfile.querySelector('input[name=name]');
 const jobInput = popupProfile.querySelector('input[name=profession]');
+const popupProfileOverlay = popupProfile.querySelector('.popup__overlay');
 const elementContainer = document.querySelector('.elements');
 const cardElement = document.querySelector('#elementTemplate').content;
 const popupCards = document.querySelector('#popup-card');
 const popupCardOpenButton = document.querySelector('.profile__button-add');
 const popupCardCloseButton = popupCards.querySelector('.popup__close');
+const popupCardOverlay = popupCards.querySelector('.popup__overlay');
 const nameCardInput = popupCards.querySelector('input[name=title]');
 const linkCardInput = popupCards.querySelector('input[name=link]');
 const cardSubmit = popupCards.querySelector('.popup__container');
@@ -18,6 +20,7 @@ const popupImageContainer = document.querySelector('#popup-image');
 const popupImageContainerCloseButton = popupImageContainer.querySelector('.popup__close');
 const popupImage = popupImageContainer.querySelector('.popup__image');
 const popupCaption = popupImageContainer.querySelector('.popup__caption');
+const popupImageContainerOverlay = popupImageContainer.querySelector('.popup__overlay');
 
 const initialCards = [
   {
@@ -72,6 +75,7 @@ const createCard = card => {
     popupImage.alt = cardImage.alt;
     popupCaption.textContent = cardImage.alt;
     popupImageContainer.classList.add('popup_opened')
+    document.addEventListener('keydown', popupCloseEsc);
   });
   elementContainer.prepend(newCard);
 
@@ -79,14 +83,30 @@ const createCard = card => {
 
 initialCards.forEach(createCard);
 
-const popupOpen = function () {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileProfession.textContent;
-  popupProfile.classList.add('popup_opened');
+const popupCloseEsc = (evt) => {
+  if (evt.key === "Escape") {
+    if (popupProfile.classList.contains('popup_opened')) {
+      popupToggle();
+    }
+    popupImageClose();
+    if (popupCards.classList.contains('popup_opened')) {
+      popupCardToggle();
+    }
+  }
 }
 
-const popupClose = function () {
-  popupProfile.classList.remove('popup_opened');
+const popupToggle = function () {
+  if (!popupProfile.classList.contains('popup_opened')) {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileProfession.textContent;
+    jobInput.dispatchEvent(new Event('input', { bubbles: true }));
+    nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+    popupProfile.classList.add('popup_opened');
+    document.addEventListener('keydown', popupCloseEsc);
+  } else {
+    popupProfile.classList.remove('popup_opened');
+    document.removeEventListener('keydown', popupCloseEsc);
+  }
 }
 
 const formSubmitHandler = function (evt) {
@@ -98,12 +118,17 @@ const formSubmitHandler = function (evt) {
 
 const popupCardToggle = () => {
   popupCards.classList.toggle('popup_opened');
-
+  if (!popupProfile.classList.contains('popup_opened')) {
+    document.addEventListener('keydown', popupCloseEsc);
+  } else {
+    document.removeEventListener('keydown', popupCloseEsc);
   cardSubmit.reset();
+  }
 };
 
 const popupImageClose = () => {
   popupImageContainer.classList.remove('popup_opened');
+  document.removeEventListener('keydown', popupCloseEsc);
 };
 
 const addCardToContainer = (evt) => {
@@ -121,10 +146,13 @@ const addCardToContainer = (evt) => {
   cardSubmit.reset();
 }
 
-popupOpenButton.addEventListener('click', popupOpen);
-popupCloseButton.addEventListener('click', popupClose);
+popupOpenButton.addEventListener('click', popupToggle);
+popupCloseButton.addEventListener('click', popupToggle);
 formElement.addEventListener('submit', formSubmitHandler);
 popupCardOpenButton.addEventListener('click', popupCardToggle);
 popupCardCloseButton.addEventListener('click', popupCardToggle);
 popupImageContainerCloseButton.addEventListener('click', popupImageClose);
 cardSubmit.addEventListener('submit', addCardToContainer);
+popupProfileOverlay.addEventListener('click', popupToggle);
+popupCardOverlay.addEventListener('click', popupCardToggle);
+popupImageContainerOverlay.addEventListener('click', popupImageClose);
