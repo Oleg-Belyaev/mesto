@@ -24,30 +24,40 @@ const popupImageContainerOverlay = popupImageContainer.querySelector('.popup__ov
 
 const initialCards = [
   {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const openPopup = (evt) => {
+  evt.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEsc);
+}
+
+const closePopup = (evt) => {
+  evt.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc);
+}
 
 const createCard = card => {
   const newCard = cardElement.cloneNode(true);
@@ -56,82 +66,54 @@ const createCard = card => {
   newCard.querySelector('.element__name').textContent = card.name;
   
   cardImage.src = card.link;
-
   cardImage.alt = card.name;
 
   newCard.querySelector('.element__heart').addEventListener('click', event => {
-  event.target.classList.toggle('element__heart_dark')
+    event.target.classList.toggle('element__heart_dark')
   });
 
   newCard.querySelector('.element__button-remove').addEventListener('click', event => {
-    const element = event.target.closest('.element')
-
-    element.remove()
-
+    event.target.closest('.element').remove()
   });
 
-  cardImage.addEventListener('click', event => {
+  cardImage.addEventListener('click', () => {
     popupImage.src = cardImage.src;
     popupImage.alt = cardImage.alt;
     popupCaption.textContent = cardImage.alt;
-    popupImageContainer.classList.add('popup_opened')
-    document.addEventListener('keydown', popupCloseEsc);
+    openPopup(popupImageContainer);
   });
-  elementContainer.prepend(newCard);
+  return newCard
+}
 
-};
+const addCard = card => {
+  elementContainer.prepend(createCard(card));
+}
 
-initialCards.forEach(createCard);
+initialCards.forEach(addCard);
 
-const popupCloseEsc = (evt) => {
+const closePopupEsc = (evt) => {
+  const popupOpen = document.querySelector('.popup_opened');
   if (evt.key === "Escape") {
-    if (popupProfile.classList.contains('popup_opened')) {
-      popupToggle();
-    }
-    popupImageClose();
-    if (popupCards.classList.contains('popup_opened')) {
-      popupCardToggle();
-    }
+    closePopup(popupOpen);
   }
 }
 
-const popupToggle = function () {
-  if (!popupProfile.classList.contains('popup_opened')) {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileProfession.textContent;
-    jobInput.dispatchEvent(new Event('input', { bubbles: true }));
-    nameInput.dispatchEvent(new Event('input', { bubbles: true }));
-    popupProfile.classList.add('popup_opened');
-    document.addEventListener('keydown', popupCloseEsc);
-  } else {
-    popupProfile.classList.remove('popup_opened');
-    document.removeEventListener('keydown', popupCloseEsc);
-  }
+const editPopupForm = () => {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileProfession.textContent;
+  jobInput.dispatchEvent(new Event('input', { bubbles: true }));
+  nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+  openPopup(popupProfile);
 }
 
 const formSubmitHandler = function (evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileProfession.textContent = jobInput.value;
-  popupProfile.classList.remove('popup_opened');
+  closePopup(popupProfile);
 }
 
-const popupCardToggle = () => {
-  popupCards.classList.toggle('popup_opened');
-  if (!popupProfile.classList.contains('popup_opened')) {
-    document.addEventListener('keydown', popupCloseEsc);
-  } else {
-    document.removeEventListener('keydown', popupCloseEsc);
-  cardSubmit.reset();
-  }
-};
-
-const popupImageClose = () => {
-  popupImageContainer.classList.remove('popup_opened');
-  document.removeEventListener('keydown', popupCloseEsc);
-};
-
-const addCardToContainer = (evt) => {
+const addNewCard = (evt) => {
   evt.preventDefault();
 
   const card = {
@@ -139,20 +121,21 @@ const addCardToContainer = (evt) => {
     link: linkCardInput.value
   }
 
-  createCard(card);
+  addCard(card);
   
-  popupCards.classList.remove('popup_opened');
-
-  cardSubmit.reset();
+  closePopup(popupCards);
+  
+  nameCardInput.value = "";
+  linkCardInput.value = "";
 }
 
-popupOpenButton.addEventListener('click', popupToggle);
-popupCloseButton.addEventListener('click', popupToggle);
+popupOpenButton.addEventListener('click', editPopupForm);
+popupCloseButton.addEventListener('click', function(){closePopup(popupProfile)});
 formElement.addEventListener('submit', formSubmitHandler);
-popupCardOpenButton.addEventListener('click', popupCardToggle);
-popupCardCloseButton.addEventListener('click', popupCardToggle);
-popupImageContainerCloseButton.addEventListener('click', popupImageClose);
-cardSubmit.addEventListener('submit', addCardToContainer);
-popupProfileOverlay.addEventListener('click', popupToggle);
-popupCardOverlay.addEventListener('click', popupCardToggle);
-popupImageContainerOverlay.addEventListener('click', popupImageClose);
+popupCardOpenButton.addEventListener('click', function(){openPopup(popupCards)});
+popupCardCloseButton.addEventListener('click', function(){closePopup(popupCards)});
+popupImageContainerCloseButton.addEventListener('click', function(){closePopup(popupImageContainer)});
+cardSubmit.addEventListener('submit', addNewCard);
+popupProfileOverlay.addEventListener('click', function(){closePopup(popupProfile)});
+popupCardOverlay.addEventListener('click', function(){closePopup(popupCards)});
+popupImageContainerOverlay.addEventListener('click', function(){closePopup(popupImageContainer)});

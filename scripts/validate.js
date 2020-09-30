@@ -1,6 +1,4 @@
 const showInputError = (formElement, inputElement, errorMessage, params) => {
-    params.inputErrorClass
-    params.errorClass
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.add(params.inputErrorClass);
     errorElement.classList.add(params.errorClass);
@@ -8,8 +6,6 @@ const showInputError = (formElement, inputElement, errorMessage, params) => {
 };
 
 const hideInputError = (formElement, inputElement, params) => {
-    params.inputErrorClass
-    params.errorClass
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.remove(params.inputErrorClass);
     errorElement.classList.remove(params.errorClass);
@@ -31,7 +27,6 @@ const hasInvalidInput = (inputList) => {
 };
 
 const toggleButtonState = (inputList, buttonElement, params) => {
-    params.inactiveButtonClass
     if (hasInvalidInput(inputList)) {
         buttonElement.classList.add(params.inactiveButtonClass);
         buttonElement.setAttribute("disabled", true);
@@ -42,8 +37,6 @@ const toggleButtonState = (inputList, buttonElement, params) => {
 };
 
 const setEventListeners = (formElement, params) => {
-    params.inputSelector
-    params.submitButtonSelector
     const inputList = Array.from(formElement.querySelectorAll(params.inputSelector));
     const buttonElement = formElement.querySelector(params.submitButtonSelector);
     toggleButtonState(inputList, buttonElement, params);
@@ -56,7 +49,6 @@ const setEventListeners = (formElement, params) => {
 };
 
 const enableValidation = (params) => {
-    params.formSelector
     const formList = Array.from(document.querySelectorAll(params.formSelector));
     formList.forEach((formElement) => {
         setEventListeners(formElement, params);
