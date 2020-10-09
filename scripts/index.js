@@ -1,5 +1,6 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import {initialCards, data} from "./data.js";
 const popupProfile = document.querySelector('#popup-profile');
 const popupOpenButton = document.querySelector('.profile__button-edit');
 const popupCloseButton = popupProfile.querySelector('.popup__close');
@@ -20,41 +21,7 @@ const cardSubmit = popupCards.querySelector('.popup__container');
 const popupImageContainer = document.querySelector('#popup-image');
 const popupImageContainerCloseButton = popupImageContainer.querySelector('.popup__close');
 const popupImageContainerOverlay = popupImageContainer.querySelector('.popup__overlay');
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-const data = {
-  inputSelector: '.popup__item',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_inactive',
-  inputErrorClass: 'popup__item_type_error',
-  errorClass: 'popup__item-error_active'
-};
+const cardSubmitButton =  cardSubmit.querySelector('.popup__submit');
 
 const openPopup = (evt) => {
   evt.classList.add('popup_opened');
@@ -95,6 +62,9 @@ const addNewCard = (evt) => {
   
   nameCardInput.value = "";
   linkCardInput.value = "";
+
+  cardSubmitButton.classList.add('popup__submit_inactive');
+  cardSubmitButton.setAttribute("disabled", true);
 }
 
 const editPopupForm = () => {
@@ -119,12 +89,26 @@ const formValidatorProfile = new FormValidator(data, 'form[name=Info]');
 formValidatorProfile.enableValidation();
 
 popupOpenButton.addEventListener('click', editPopupForm);
-popupCloseButton.addEventListener('click', function(){closePopup(popupProfile)});
+popupCloseButton.addEventListener('click', () => {
+  closePopup(popupProfile);
+});
 formElement.addEventListener('submit', formSubmitHandler);
-popupCardOpenButton.addEventListener('click', function(){openPopup(popupCards)});
-popupCardCloseButton.addEventListener('click', function(){closePopup(popupCards)});
-popupImageContainerCloseButton.addEventListener('click', function(){closePopup(popupImageContainer)});
+popupCardOpenButton.addEventListener('click', () => {
+  openPopup(popupCards);
+});
+popupCardCloseButton.addEventListener('click', () => {
+  closePopup(popupCards);
+});
+popupImageContainerCloseButton.addEventListener('click', () => {
+  closePopup(popupImageContainer);
+});
 cardSubmit.addEventListener('submit', addNewCard);
-popupProfileOverlay.addEventListener('click', function(){closePopup(popupProfile)});
-popupCardOverlay.addEventListener('click', function(){closePopup(popupCards)});
-popupImageContainerOverlay.addEventListener('click', function(){closePopup(popupImageContainer)});
+popupProfileOverlay.addEventListener('click', () => {
+  closePopup(popupProfile);
+});
+popupCardOverlay.addEventListener('click', () => {
+  closePopup(popupCards);
+});
+popupImageContainerOverlay.addEventListener('click', () => {
+  closePopup(popupImageContainer);
+});

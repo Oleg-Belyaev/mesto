@@ -51,7 +51,8 @@ export default class Card {
   }
 
   _handleRemoveClick () {
-    this._element.querySelector('.element__button-remove').closest('.element').remove()
+    this._element.remove()
+    this._element = null;
   }
   
   _handleImageClick () {
