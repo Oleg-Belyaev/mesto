@@ -1,3 +1,5 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 const popupProfile = document.querySelector('#popup-profile');
 const popupOpenButton = document.querySelector('.profile__button-edit');
 const popupCloseButton = popupProfile.querySelector('.popup__close');
@@ -8,7 +10,6 @@ const nameInput = popupProfile.querySelector('input[name=name]');
 const jobInput = popupProfile.querySelector('input[name=profession]');
 const popupProfileOverlay = popupProfile.querySelector('.popup__overlay');
 const elementContainer = document.querySelector('.elements');
-const cardElement = document.querySelector('#elementTemplate').content;
 const popupCards = document.querySelector('#popup-card');
 const popupCardOpenButton = document.querySelector('.profile__button-add');
 const popupCardCloseButton = popupCards.querySelector('.popup__close');
@@ -18,8 +19,6 @@ const linkCardInput = popupCards.querySelector('input[name=link]');
 const cardSubmit = popupCards.querySelector('.popup__container');
 const popupImageContainer = document.querySelector('#popup-image');
 const popupImageContainerCloseButton = popupImageContainer.querySelector('.popup__close');
-const popupImage = popupImageContainer.querySelector('.popup__image');
-const popupCaption = popupImageContainer.querySelector('.popup__caption');
 const popupImageContainerOverlay = popupImageContainer.querySelector('.popup__overlay');
 
 const initialCards = [
@@ -49,6 +48,14 @@ const initialCards = [
   }
 ];
 
+const data = {
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_inactive',
+  inputErrorClass: 'popup__item_type_error',
+  errorClass: 'popup__item-error_active'
+};
+
 const openPopup = (evt) => {
   evt.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
@@ -59,38 +66,6 @@ const closePopup = (evt) => {
   document.removeEventListener('keydown', closePopupEsc);
 }
 
-const createCard = card => {
-  const newCard = cardElement.cloneNode(true);
-  const cardImage = newCard.querySelector('.element__image');
-
-  newCard.querySelector('.element__name').textContent = card.name;
-  
-  cardImage.src = card.link;
-  cardImage.alt = card.name;
-
-  newCard.querySelector('.element__heart').addEventListener('click', event => {
-    event.target.classList.toggle('element__heart_dark')
-  });
-
-  newCard.querySelector('.element__button-remove').addEventListener('click', event => {
-    event.target.closest('.element').remove()
-  });
-
-  cardImage.addEventListener('click', () => {
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardImage.alt;
-    popupCaption.textContent = cardImage.alt;
-    openPopup(popupImageContainer);
-  });
-  return newCard
-}
-
-const addCard = card => {
-  elementContainer.prepend(createCard(card));
-}
-
-initialCards.forEach(addCard);
-
 const closePopupEsc = (evt) => {
   const popupOpen = document.querySelector('.popup_opened');
   if (evt.key === "Escape") {
@@ -98,20 +73,13 @@ const closePopupEsc = (evt) => {
   }
 }
 
-const editPopupForm = () => {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileProfession.textContent;
-  jobInput.dispatchEvent(new Event('input', { bubbles: true }));
-  nameInput.dispatchEvent(new Event('input', { bubbles: true }));
-  openPopup(popupProfile);
+const addCard = (item) => {
+  const card = new Card(item, '#elementTemplate', '#popup-image', openPopup);
+  const cardElement = card.createCard();
+  elementContainer.prepend(cardElement);
 }
 
-const formSubmitHandler = function (evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileProfession.textContent = jobInput.value;
-  closePopup(popupProfile);
-}
+initialCards.forEach(addCard);
 
 const addNewCard = (evt) => {
   evt.preventDefault();
@@ -128,6 +96,27 @@ const addNewCard = (evt) => {
   nameCardInput.value = "";
   linkCardInput.value = "";
 }
+
+const editPopupForm = () => {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileProfession.textContent;
+  jobInput.dispatchEvent(new Event('input', { bubbles: true }));
+  nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+  openPopup(popupProfile);
+}
+
+const formSubmitHandler = (evt) => {
+  evt.preventDefault();
+  profileName.textContent = nameInput.value;
+  profileProfession.textContent = jobInput.value;
+  closePopup(popupProfile);
+}
+
+const formValidatorCard = new FormValidator(data, 'form[name=Card]');
+formValidatorCard.enableValidation();
+
+const formValidatorProfile = new FormValidator(data, 'form[name=Info]');
+formValidatorProfile.enableValidation();
 
 popupOpenButton.addEventListener('click', editPopupForm);
 popupCloseButton.addEventListener('click', function(){closePopup(popupProfile)});
