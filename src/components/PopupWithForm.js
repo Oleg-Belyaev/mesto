@@ -36,8 +36,5 @@ export default class PopupWithForm extends Popup {
     this._inputList.forEach(input => {
         input.value = '';
     });
-    this._buttonSubmit = this._element.querySelector('.popup__submit');
-    this._buttonSubmit.classList.add('popup__submit_inactive');
-    this._buttonSubmit.setAttribute("disabled", true);
   }
 }

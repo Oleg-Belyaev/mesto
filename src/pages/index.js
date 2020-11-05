@@ -76,5 +76,6 @@ popupOpenButton.addEventListener('click', () => {
 });
 
 popupCardOpenButton.addEventListener('click', () => {
+  formValidatorCard.inactiveButtonState();
   popupCards.open();
 });
