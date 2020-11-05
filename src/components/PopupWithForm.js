@@ -27,8 +27,6 @@ export default class PopupWithForm extends Popup {
       this._handleFormSubmit(this._getInputValues());
     
       this._popupForm.reset();
-      this.close();
-      
     });
   }
 
@@ -38,5 +36,8 @@ export default class PopupWithForm extends Popup {
     this._inputList.forEach(input => {
         input.value = '';
     });
+    this._buttonSubmit = this._element.querySelector('.popup__submit');
+    this._buttonSubmit.classList.add('popup__submit_inactive');
+    this._buttonSubmit.setAttribute("disabled", true);
   }
 }

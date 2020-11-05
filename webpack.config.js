@@ -34,10 +34,18 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|svg|jpg|gif|woff|woff2)$/,
+        test: /\.(png|svg|jpg|gif)$/,
         use: [
             {
-              loader: 'file-loader',
+              loader: 'file-loader?name=./images/[name].[ext]',
+            },
+          ]
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        use: [
+            {
+              loader: 'file-loader?name=./vendor/[name].[ext]',
             },
           ]
       },

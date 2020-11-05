@@ -8,24 +8,30 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 const popupOpenButton = document.querySelector('.profile__button-edit');
 const popupCardOpenButton = document.querySelector('.profile__button-add');
+const inputName = document.querySelector('input[name=name]');
+const inputProfession = document.querySelector('input[name=profession]');
 
 const userInfo = new UserInfo('.profile__name', '.profile__profession');
 
-const popupImage = new PopupWithImage('#popup-image');
+const popupImage = new PopupWithImage('#popup-image', '.popup__image', '.popup__caption');
 
 popupImage.setEventListeners();
+
+const addCard = (data) => {
+  const card = new Card({
+    data, 
+    handleCardClick: (data) => {
+    popupImage.open(data);
+    }
+  }, '#elementTemplate');
+  const cardElement = card.createCard();
+  cardList.addItem(cardElement);
+}
 
 const cardList = new Section({
   items: initialCards,
   renderer: (data) => {
-    const card = new Card({
-      data, 
-      handleCardClick: (data) => {
-      popupImage.open(data);
-      }
-    }, '#elementTemplate');
-    const cardElement = card.createCard();
-    cardList.addItem(cardElement);
+    addCard(data);
   }
 },
 '.elements');
@@ -33,14 +39,8 @@ const cardList = new Section({
 const popupCards = new PopupWithForm (
   '#popup-card',
   (data) => {
-    const card = new Card({
-      data, 
-      handleCardClick: (data) => {
-      popupImage.open(data);
-      }
-    }, '#elementTemplate');
-    const cardElement = card.createCard();
-    cardList.addItem(cardElement);
+    addCard(data);
+    popupCards.close();
   });
 
 popupCards.setEventListeners();
@@ -54,6 +54,7 @@ const popupProfile = new PopupWithForm (
       name: data.name,
       profession: data.profession
     });
+    popupProfile.close();
   }
 );
 
@@ -67,8 +68,10 @@ formValidatorProfile.enableValidation();
 
 popupOpenButton.addEventListener('click', () => {
   const info = userInfo.getUserInfo();
-  document.querySelector('input[name=name]').value = info.name;
-  document.querySelector('input[name=profession]').value = info.profession;
+  inputName.value = info.name;
+  inputProfession.value = info.profession;
+  inputProfession.dispatchEvent(new Event('input', { bubbles: true }));
+  inputName.dispatchEvent(new Event('input', { bubbles: true }));
   popupProfile.open();
 });
 
