@@ -16,7 +16,10 @@
     <main class="content page__section">
       <section class="profile content__section">
         <div class="profile__data">
-          <img src="./images/avatar.jpg" alt="Фото" class="profile__avatar">
+          <div class="profile__avatar">
+            <img src="./images/avatar.jpg" alt="Фото" class="profile__foto">
+            <img src="./images/edit-avatar.svg" alt="Карандаш" class="profile__avatar-edit">
+          </div>
           <div class="profile__info">
             <div class="profile__names">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -48,8 +51,22 @@
             <span class="popup__item-error" id="name-input-error"></span>
           </div>
           <div class="popup__field">
-            <input type="text" class="popup__item" name="profession" placeholder="Профессия" id="profession-input" required minlength="2" maxlength="200">
-            <span class="popup__item-error" id="profession-input-error"></span>
+            <input type="text" class="popup__item" name="about" placeholder="Профессия" id="about-input" required minlength="2" maxlength="200">
+            <span class="popup__item-error" id="about-input-error"></span>
+          </div>
+          <button type="submit" class="popup__submit" value="Сохранить">Сохранить</button>
+        </fieldset>
+      </form>
+    </section>
+    <section class="popup" id="popup-avatar">
+      <div class="popup__overlay"></div>
+      <form class="popup__container" name="avatar" novalidate>
+        <button class="popup__close" type="button"></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <fieldset class="popup__input-container">
+          <div class="popup__field">
+            <input type="url" class="popup__item" name="link" required placeholder="Ссылка на аватар" id="link-input">
+            <span class="popup__item-error" id="link-input-error"></span>
           </div>
           <button type="submit" class="popup__submit" value="Сохранить">Сохранить</button>
         </fieldset>
@@ -62,8 +79,8 @@
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__input-container">
           <div class="popup__field">
-            <input type="text" class="popup__item" name="title" required placeholder="Название" id="title-input" minlength="2" maxlength="30">
-            <span class="popup__item-error" id="title-input-error"></span>
+            <input type="text" class="popup__item" name="name" required placeholder="Название" id="name-input" minlength="2" maxlength="30">
+            <span class="popup__item-error" id="name-input-error"></span>
           </div>
           <div class="popup__field">
             <input type="url" class="popup__item" name="link" required placeholder="Ссылка на картинку" id="link-input">
@@ -71,6 +88,14 @@
           </div>
           <button type="submit" class="popup__submit" value="Создать">Создать</button>
         </fieldset>
+      </form>
+    </section>
+    <section class="popup" id="popup-delete">
+      <div class="popup__overlay"></div>
+      <form class="popup__container" name="Delete" novalidate>
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button class="popup__close" type="button"></button>
+        <button type="button" class="popup__submit popup__submit_delete" value="Да">Да</button>
       </form>
     </section>
     <section class="popup" id="popup-image">
@@ -85,11 +110,13 @@
     </section>
   </div>
   <template id="elementTemplate">
-    <div class="element">
+    <div class="element" id="">
       <img src="#" alt="" class="element__image">
       <div class="element__caption">
         <p class="element__name"></p>
+        <div class="element__like">
         <button class="button element__button-like" type="button"></button>
+        <p class="element__like-counter"></p>
       </div>
       <button class="button element__button-remove" type="button"></button>
     </div>
