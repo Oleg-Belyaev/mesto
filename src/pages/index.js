@@ -1,7 +1,7 @@
 import './index.css';
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import data from "../utils/data.js";
+import {data} from "../utils/data.js";
 import Section from "../components/Section.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -79,7 +79,8 @@ const addCard = (data) => {
           likecounter.textContent = data.likes.length;
         })
       }
-    }
+    },
+    userInfo
   }, '#elementTemplate');
   const cardElement = card.createCard();
   cardList.addItem(cardElement);
