@@ -48,8 +48,11 @@ const popupAccept = new PopupWithAccept (
     api.deleteCard(id)
     .then ((res) => {
       card.remove();
+      popupAccept.close();
     })
-    popupAccept.close();
+    .catch((err) => {
+      console.log(err);
+    })
   }
 )
 
@@ -65,30 +68,29 @@ const addCard = (data) => {
       popupAccept.open(data);
     },
     handleLikeClick: (data) => {
-      const like = data.element.querySelector('.element__button-like');
-      const likecounter = data.element.querySelector('.element__like-counter');
-      like.classList.toggle('element__button-like_active');
-      if (!like.classList.contains('element__button-like_active')) {
-        api.removeLike(data.id)
-        .then ((data) => {
-          likecounter.textContent = data.likes.length;
+      if (card.isLiked()) {
+        api.removeLike(data._id)
+        .then ((data) => card.setLikesInfo(data))
+        .catch((err) => {
+          console.log(err);
         })
       } else {
-        api.addLike(data.id)
-        .then ((data) => {
-          likecounter.textContent = data.likes.length;
+        api.addLike(data._id)
+        .then ((data) => card.setLikesInfo(data))
+        .catch((err) => {
+          console.log(err);
         })
       }
     },
     userInfo
   }, '#elementTemplate');
-  const cardElement = card.createCard();
-  cardList.addItem(cardElement);
+  const cardElement = card.createCard(data);
+  return cardElement;
 }
 
 const cardList = new Section({
   renderer: (data) => {
-    addCard(data);
+    cardList.addItem(addCard(data));
   },
   containerSelector:'.elements'
 })
@@ -111,12 +113,15 @@ const popupCards = new PopupWithForm (
     renderLoading(true, '#popup-card', 'Создать');
     api.createCard(data)
     .then((data) => {
-    addCard(data);
+    cardList.addItem(addCard(data));
+    popupCards.close();
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally(() => {
       renderLoading(false, '#popup-card', 'Создать');
     });
-    popupCards.close();
   }
 );
 
@@ -129,11 +134,14 @@ const popupProfile = new PopupWithForm (
     api.editUserInfo(data)
     .then((data) => {
       userInfo.setUserInfo(data);
+      popupProfile.close();
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally (() => {
     renderLoading(false, '#popup-profile', 'Сохранить');
     });
-    popupProfile.close();
   }
 );
 
@@ -146,11 +154,14 @@ const popupAvatar = new PopupWithForm (
     api.editAvatar(data)
     .then((data) => {
       avatar.querySelector('.profile__foto').src = data.avatar;
+      popupAvatar.close();
+    })
+    .catch((err) => {
+      console.log(err);
     })
     .finally (() => {
       renderLoading(false, '#popup-avatar', 'Сохранить');
     });
-    popupAvatar.close();
   }
 )
 popupAvatar.setEventListeners();

@@ -1,7 +1,5 @@
 const handleOriginalResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  } return Promise.reject(`Что-то пошло не так: ${res.status}`);  
+  return res.ok ? res.json() : Promise.reject(`Что-то пошло не так: ${res.status}`);
 };
 
 export default class Api {
@@ -15,12 +13,6 @@ export default class Api {
       headers: this._headers
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   getInitialCards() {
@@ -28,12 +20,6 @@ export default class Api {
       headers: this._headers
     })  
     .then(handleOriginalResponse)
-    .then((items) => {
-      return items;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   editUserInfo(data) {
@@ -46,12 +32,6 @@ export default class Api {
       })
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   createCard(data) {
@@ -64,12 +44,6 @@ export default class Api {
       })
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   deleteCard(id) {
@@ -78,12 +52,6 @@ export default class Api {
       headers: this._headers,
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   addLike(id) {
@@ -92,12 +60,6 @@ export default class Api {
       headers: this._headers,
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })  
   }
 
   removeLike(id) {
@@ -106,12 +68,6 @@ export default class Api {
       headers: this._headers,
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })  
   }
 
   editAvatar(data) {
@@ -123,11 +79,5 @@ export default class Api {
       })
     })  
     .then(handleOriginalResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 }
