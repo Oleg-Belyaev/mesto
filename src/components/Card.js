@@ -2,7 +2,8 @@ export default class Card {
   constructor({data, handleCardClick, handleRemoveClick, handleLikeClick, userInfo}, cardSelector) {
     this._name = data.name;
     this._link = data.link;
-    this._like = data.likes.length;
+    this._likesData = data.likes;
+    this._like = this._likesData.length;
     this._id = userInfo.id;
     this._cardId = data._id;
     this._owner = data.owner._id;
@@ -22,6 +23,18 @@ export default class Card {
     return cardElement;
   }  
   
+  isLiked () {
+    return this._likesData.some(like => like._id === this._id)
+  }
+
+  _updateLikeStatus () {
+    if(this.isLiked()) {
+      this._likeButton.classList.add('element__button-like_active');
+    } else {
+      this._likeButton.classList.remove('element__button-like_active');
+    }
+  }
+
   createCard (data) { 
     this._element = this._getTemplate();
     this._likeButton = this._element.querySelector('.element__button-like');
@@ -39,25 +52,20 @@ export default class Card {
     this._likeCounter.textContent = this._like;
     cardImage.src = this._link;
     cardImage.alt = this._name;
-    
+
+    this._updateLikeStatus();
+
     return this._element
   }
-
-  isLiked () {
-    if (!this._likeButton.classList.contains('element__button-like_active')) {
-      return true
-    } else {
-      return false
-    }
-  }
-
+  
   setLikesInfo (data) {
+    this._likesData = data.likes;
+    this._updateLikeStatus();
     this._likeCounter.textContent = data.likes.length;
   }
 
   _setEventListeners (data) {
     this._likeButton.addEventListener('click', () => {
-      this._likeButton.classList.toggle('element__button-like_active');
       this._handleLikeClick(data);
     });
     
